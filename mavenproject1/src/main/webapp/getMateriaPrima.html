@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        
+        
+        <div class ="h1 container text-center mb-5 mt-5">Get the list of the materia</div>
+        
+        <div class = "container d-flex flex-column justify-content-center align-items-center">
+            <button class="rounded justify-content-center btn-primary btn" id="go_index">Get Back Landing Page</button>
+        </div>
+        
+        
+        <table class="table my-5">
+            <thead>
+                <tr>
+                    <th scope="col">Materia ID</th>
+                    <th scope="col">Materia Name</th>
+                    <th scope="col">Cantitad</th>
+                    <th scope="col">Actualizar cantitad</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                
+            </tbody>
+        </table>
+    </body>
+    
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url : "./ActionServlet",
+                mathod : "POST",
+                data : {
+                    todo : "verifyConnection"
+                },
+                dataType: 'json'
+            }).done(function(response) {
+                if (!response.success) {
+                    $(location).attr("href", "sign_in.html");
+                }
+            }).fail(function() {
+               window.alert("Echec");
+            });
+            
+            $.ajax({
+                url : "./ActionServlet",
+                method : "POST",
+                data : {
+                    todo : "clearSession"
+                },
+                dataType: 'json'
+            }).done(function(response) {
+                
+            }).fail(function () {
+                window.alert("Echec");
+            });
+            
+            
+            $.ajax({
+                url : "./ActionServlet",
+                method : "Get",
+                data : {
+                    todo : "getListMateria"
+                },
+                dataType : "json"
+            }).done(function(response) {
+                let materiaList = response.materiaList;
+                for (let materia of materiaList) {
+                    let id = materia.id;
+                    let nombre = materia.nombre;
+                    let cantidad = materia.cantitad;
+                    let newRow = $("<tr></tr>");
+
+                    newRow.append("<th>" + id + "</th>");
+                    newRow.append("<th>" + nombre + "</th>");
+                    newRow.append("<th>" + cantidad + "</th>");
+
+                    let thButton = $("<th></th>");
+                    let button = $("<button class='btn btn-secondary'>Actualizar cantidad</button>");
+                    button.on("click", function() {
+                        $.ajax({
+                            url : "./ActionServlet",
+                            method : "POST",
+                            data : {
+                                todo : "setMateriaID",
+                                MateriaID : id
+                            },
+                            dataType : "json"
+                            
+                            
+                        }).done(function(response) {
+                            $(location).attr("href", "actualizarMateria.html");
+                        }).fail(function() {
+                            window.alert("Echec");
+                        });
+                    });
+                    thButton.append(button); // Ajouter le bouton à la cellule
+                    newRow.append(thButton);
+                    $("#tableBody").append(newRow);
+                }
+            }).fail(function() {
+                window.alert("Echec");
+            });
+            
+            $("#go_index").on("click", function() {
+                $(location).attr("href", "index.html");
+            });
+        });
+    </script>
+</html>

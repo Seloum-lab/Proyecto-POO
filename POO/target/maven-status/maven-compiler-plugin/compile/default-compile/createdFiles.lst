@@ -1,0 +1,17 @@
+Modele\Metier\MateriaPrima.class
+DAO\JpaUtil.class
+Modele\Metier\Administrador.class
+Modele\Metier\Cuenta.class
+Modele\Metier\Producto.class
+Modele\Metier\Cuenta_.class
+DAO\ProductoDAO.class
+DAO\MateriaPrimaDAO.class
+DAO\JpaUtil$1.class
+Modele\Metier\User.class
+Modele\Service\Service.class
+DAO\CuentaDAO.class
+Modele\Metier\Administrador_.class
+Main\Main.class
+Modele\Metier\User_.class
+Modele\Metier\Producto_.class
+Modele\Metier\MateriaPrima_.class
